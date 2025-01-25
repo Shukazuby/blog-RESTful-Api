@@ -19,14 +19,16 @@ export class BlogController {
   async createBlog(
     @Body() payload: CreateBlogDto,
   ): Promise<BaseResponseTypeDTO> {
-
     const result = await this.blogService.createBlog( payload);
     return result;
   }
 
   @Get()
-  findAll() {
-    return this.blogService.fetchBlogs();
+  @ApiOperation({ summary: 'Fetch blog posts' })
+  @ApiResponse({ status: HttpStatus.OK, description: 'blog posts feteched' })
+  async fetchBlogPosts(): Promise<BaseResponseTypeDTO> {
+    const result = this.blogService.fetchBlogPosts();
+    return result
   }
 
   @Get(':id')
