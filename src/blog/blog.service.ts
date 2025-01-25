@@ -37,12 +37,22 @@ export class BlogService {
     }
   }
 
- async fetchBlogs(): Promise<BaseResponseTypeDTO> {
+ async fetchBlogPosts(): Promise<BaseResponseTypeDTO> {
+  const blogs = await this.blogModel.find()
+  if(blogs.length === 0){
     return {
       data: [],
       success: true,
       code: HttpStatus.OK,
-      message: 'All blogs fetched'
+      message: 'No available blog posts'
+      
+    }
+  }
+    return {
+      data: blogs,
+      success: true,
+      code: HttpStatus.OK,
+      message: 'All blog posts fetched'
       
     }
   }
