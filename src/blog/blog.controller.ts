@@ -32,17 +32,27 @@ export class BlogController {
   }
 
   @Get(':id')
-  findOne(@Param('id') id: string) {
-    return this.blogService.findOne(+id);
+  @ApiOperation({ summary: 'Fetch a blog post' })
+  @ApiResponse({ status: HttpStatus.OK, description: 'blog post feteched' })
+  async fetchABlog(
+    @Param('id') id: string
+  ): Promise<BaseResponseTypeDTO> {
+    const result = this.blogService.fetchABlog(id);
+    return result
   }
 
   @Patch(':id')
-  update(@Param('id') id: string, @Body() updateBlogDto: UpdateBlogDto) {
-    return this.blogService.update(+id, updateBlogDto);
+  @ApiOperation({ summary: 'edit a blog post' })
+  @ApiResponse({ status: HttpStatus.OK, description: 'blog post edited' })
+  editBlog(@Param('id') id: string, @Body() updateBlogDto: UpdateBlogDto) {
+    const result = this.blogService.editBlog(id, updateBlogDto);
+    return result
   }
 
   @Delete(':id')
-  remove(@Param('id') id: string) {
-    return this.blogService.remove(+id);
+  @ApiOperation({ summary: 'delete a blog post' })
+  @ApiResponse({ status: HttpStatus.OK, description: 'blog posts deleted' })
+  deleteBlog(@Param('id') id: string) {
+    return this.blogService.deleteBlog(id);
   }
 }

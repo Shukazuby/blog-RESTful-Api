@@ -38,17 +38,18 @@ export class BlogService {
   }
 
  async fetchBlogPosts(): Promise<BaseResponseTypeDTO> {
-  const blogs = await this.blogModel.find()
+  const blogs = await this.blogModel.find().sort({createdAt: -1})
   if(blogs.length === 0){
     return {
       data: [],
       success: true,
-      code: HttpStatus.OK,
+      code: HttpStatus.NOT_FOUND,
       message: 'No available blog posts'
       
     }
   }
     return {
+      totalCount: blogs.length,
       data: blogs,
       success: true,
       code: HttpStatus.OK,
@@ -57,15 +58,85 @@ export class BlogService {
     }
   }
 
-  findOne(id: number) {
-    return `This action returns a #${id} blog`;
+ async fetchABlog(id:string): Promise<BaseResponseTypeDTO> {
+  const blog = await this.blogModel.findById(id)
+  if(!blog){
+    return {
+      success: true,
+      code: HttpStatus.NOT_FOUND,
+      message: 'Not Found'
+      
+    }
+  }
+    return {
+      data: blog,
+      success: true,
+      code: HttpStatus.OK,
+      message: 'Blog post fetched'
+      
+    }
   }
 
-  update(id: number, updateBlogDto: UpdateBlogDto) {
-    return `This action updates a #${id} blog`;
+  async editBlog(id: string, dto: UpdateBlogDto): Promise<BaseResponseTypeDTO> {
+    const blog = await this.blogModel.findById(id);
+    
+    if (blog) {
+      // Update fields if they exist in the dto
+      if ('title' in dto) {
+        blog.title = dto.title;
+      }
+      
+      if ('content' in dto) {
+        blog.content = dto.content;
+      }
+      
+      if ('author' in dto) {
+        if (dto.author.name) blog.author.name = dto.author.name; 
+        if (dto.author.email) blog.author.email = dto.author.email;
+      }
+      
+      if ('subTitle' in dto) {
+        blog.subTitle = dto.subTitle;
+      }
+      
+      if ('description' in dto) {
+        blog.description = dto.description;
+      }
+      
+      if ('images' in dto) {
+        blog.images = dto.images;
+      }
+      
+      if ('tags' in dto) {
+        blog.tags = dto.tags;
+      }
+      
+      // Save the updated blog document
+      await blog.save();
+      
+      return {
+        data: blog,
+        success: true,
+        code: HttpStatus.OK,
+        message: 'Blog post updated',
+      };
+    } else {
+      return {
+        data: null,
+        success: false,
+        code: HttpStatus.NOT_FOUND,
+        message: 'Blog post not found',
+      };
+    }
   }
-
-  remove(id: number) {
-    return `This action removes a #${id} blog`;
+    
+  async deleteBlog(id:string): Promise<BaseResponseTypeDTO> {
+    await this.blogModel.findByIdAndDelete(id)
+      return {
+        success: true,
+        code: HttpStatus.OK,
+        message: 'Blog deleted'
+        
+      }
+    }
   }
-}

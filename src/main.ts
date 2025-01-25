@@ -14,7 +14,7 @@ async function bootstrap() {
 
   const config = new DocumentBuilder()
     .setTitle('BLOG API')
-    .setDescription(`The API for BLOG API`)
+    .setDescription(`The API for BLOG`)
     .setVersion('1.0')
     .addBearerAuth(
       {
