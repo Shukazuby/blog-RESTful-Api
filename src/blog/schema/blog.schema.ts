@@ -2,7 +2,7 @@
 import { Prop, Schema, SchemaFactory } from '@nestjs/mongoose';
 import { Document, Types } from 'mongoose';
 import { ApiProperty } from '@nestjs/swagger';
-import {IsEmail, IsString} from 'class-validator';
+import {IsEmail} from 'class-validator';
 
 export class AuthorDetails {
 @ApiProperty()
