@@ -6,6 +6,7 @@ import { MongooseModule } from '@nestjs/mongoose';
 import { ScheduleModule } from '@nestjs/schedule';
 import { EventEmitterModule } from '@nestjs/event-emitter';
 import { ThrottlerModule } from '@nestjs/throttler';
+import { ContactModule } from './contact/contact.module';
 import * as dotenv from 'dotenv';
 dotenv.config()
 
@@ -15,7 +16,8 @@ dotenv.config()
     ThrottlerModule.forRoot({ ttl: 60, limit: 40 }),
     MongooseModule.forRoot(String(process.env.MONGODB_URL).trim()),
     EventEmitterModule.forRoot(),
-    BlogModule
+    BlogModule,
+    ContactModule
   ],
   controllers: [AppController],
   providers: [AppService],
