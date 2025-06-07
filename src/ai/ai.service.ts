@@ -57,7 +57,6 @@ export class AiService {
   private genAI: GoogleGenerativeAI;
 
   constructor() {
-    // Ensure GEMINI_API_KEY is correctly set in your environment variables.
     this.genAI = new GoogleGenerativeAI(process.env.GEMINI_API_KEY || '');
   }
 
@@ -81,7 +80,7 @@ export class AiService {
     const model = this.genAI.getGenerativeModel({ model: 'gemini-2.0-flash' });
     try {
       const result = await model.generateContent([
-        `"Acting as an intelligent assistant, complete the following message in a professional and concise manner, ensuring it aligns with common business communication practices:\n${payload.text}"
+        `Acting as an intelligent assistant, complete the following message in a professional and concise manner, ensuring it aligns with common business communication practices:\n${payload.text}"
 `,
       ]);
       return result.response.text();
@@ -97,8 +96,6 @@ export class AiService {
       const result = await model.generateContent([
         `You are a knowledgeable and professional customer service AI assistant. Provide a precise and comprehensive response to the following inquiry. Focus on delivering accurate information clearly and concisely, while maintaining a helpful and courteous tone:\n${payload.text}`,
       ]);
-      console.log('e reach here - handleInquiry');
-
       return result.response.text();
     } catch (error) {
       console.error('Error handling inquiry:', error);

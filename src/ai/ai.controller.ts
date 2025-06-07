@@ -18,8 +18,9 @@ export class AiController {
     status: HttpStatus.BAD_REQUEST,
     description: 'Invalid input data',
   })
-  rewrite(@Body() payload: WriteDto) {
-    return this.aiService.rewriteMessage(payload);
+  async rewrite(@Body() payload: WriteDto) {
+    const result = await this.aiService.rewriteMessage(payload);
+    return { result };
   }
 
   @Post('complete/text')
@@ -32,8 +33,9 @@ export class AiController {
     status: HttpStatus.BAD_REQUEST,
     description: 'Invalid input data',
   })
-  autocompleteReply(@Body() payload: WriteDto) {
-    return this.aiService.autocompleteReply(payload);
+  async autocompleteReply(@Body() payload: WriteDto) {
+    const result = await this.aiService.autocompleteReply(payload);
+    return { result };
   }
 
   @Post('reply-enquiry')
@@ -46,7 +48,8 @@ export class AiController {
     status: HttpStatus.BAD_REQUEST,
     description: 'Invalid input data',
   })
-  handleInquiry(@Body() payload: WriteDto) {
-    return this.aiService.handleInquiry(payload);
+  async handleInquiry(@Body() payload: WriteDto) {
+    const result = await this.aiService.handleInquiry(payload);
+    return { result };
   }
 }
