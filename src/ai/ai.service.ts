@@ -48,7 +48,6 @@
 //   }
 // }
 
-
 import { GoogleGenerativeAI } from '@google/generative-ai';
 import { Injectable } from '@nestjs/common';
 import { WriteDto } from './dto/dtos';
@@ -57,13 +56,15 @@ import { WriteDto } from './dto/dtos';
 export class AiService {
   private genAI: GoogleGenerativeAI;
 
-constructor() {
+  constructor() {
     // Ensure GEMINI_API_KEY is correctly set in your environment variables.
     this.genAI = new GoogleGenerativeAI(process.env.GEMINI_API_KEY || '');
   }
 
   async rewriteMessage(payload: WriteDto): Promise<string> {
     const model = this.genAI.getGenerativeModel({ model: 'gemini-2.0-flash' });
+
+    console.log('e reach here - rewrite');
 
     try {
       const result = await model.generateContent([
@@ -79,8 +80,10 @@ constructor() {
   async autocompleteReply(payload: WriteDto): Promise<string> {
     const model = this.genAI.getGenerativeModel({ model: 'gemini-2.0-flash' });
     try {
-      const result = await model.generateContent([`"Acting as an intelligent assistant, complete the following message in a professional and concise manner, ensuring it aligns with common business communication practices:\n${payload.text}"
-`]);
+      const result = await model.generateContent([
+        `"Acting as an intelligent assistant, complete the following message in a professional and concise manner, ensuring it aligns with common business communication practices:\n${payload.text}"
+`,
+      ]);
       return result.response.text();
     } catch (error) {
       console.error('Error auto-completing reply:', error);
@@ -94,6 +97,8 @@ constructor() {
       const result = await model.generateContent([
         `You are a knowledgeable and professional customer service AI assistant. Provide a precise and comprehensive response to the following inquiry. Focus on delivering accurate information clearly and concisely, while maintaining a helpful and courteous tone:\n${payload.text}`,
       ]);
+      console.log('e reach here - handleInquiry');
+
       return result.response.text();
     } catch (error) {
       console.error('Error handling inquiry:', error);
