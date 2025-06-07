@@ -8,6 +8,7 @@ import { EventEmitterModule } from '@nestjs/event-emitter';
 import { ThrottlerModule } from '@nestjs/throttler';
 import { ContactModule } from './contact/contact.module';
 import * as dotenv from 'dotenv';
+import { AiModule } from './ai/ai.module';
 dotenv.config()
 
 @Module({
@@ -17,7 +18,8 @@ dotenv.config()
     MongooseModule.forRoot(String(process.env.MONGODB_URL).trim()),
     EventEmitterModule.forRoot(),
     BlogModule,
-    ContactModule
+    ContactModule,
+    AiModule
   ],
   controllers: [AppController],
   providers: [AppService],
