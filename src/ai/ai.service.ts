@@ -15,7 +15,7 @@ export class AiService {
 
     try {
       const result = await model.generateContent([
-        `Act as a professional and efficient customer service representative. Rewrite the following message to be clear, respectful, and direct. Keep the tone smart, courteous, and the message as straightforward as possible. Here is the message:\n${payload.text}`,
+        `You are a professional and efficient customer service agent. Rewrite the following message in a clear, respectful, and direct tone. Keep it short and simple. Do not provide multiple versions or options. Do not alter the tone beyond clarity and conciseness. Always regenerate the response, even if it appears identical to a previous one. Here is the message:\n${payload.text}`,
       ]);
       return result.response.text();
     } catch (error) {
