@@ -23,21 +23,6 @@ export class AiController {
     return { result };
   }
 
-  @Post('complete/text')
-  @ApiOperation({ summary: 'complete a message' })
-  @ApiResponse({
-    status: HttpStatus.OK,
-    description: '',
-  })
-  @ApiResponse({
-    status: HttpStatus.BAD_REQUEST,
-    description: 'Invalid input data',
-  })
-  async autocompleteReply(@Body() payload: WriteDto) {
-    const result = await this.aiService.autocompleteReply(payload);
-    return { result };
-  }
-
   @Post('reply-enquiry')
   @ApiOperation({ summary: 'Reply a message' })
   @ApiResponse({
@@ -50,6 +35,36 @@ export class AiController {
   })
   async handleInquiry(@Body() payload: WriteDto) {
     const result = await this.aiService.handleInquiry(payload);
+    return { result };
+  }
+
+  @Post('chatbot/command')
+  @ApiOperation({ summary: 'Chatbot' })
+  @ApiResponse({
+    status: HttpStatus.OK,
+    description: '',
+  })
+  @ApiResponse({
+    status: HttpStatus.BAD_REQUEST,
+    description: 'Invalid input data',
+  })
+  async chatbot(@Body() payload: WriteDto) {
+    const result = await this.aiService.chatbot(payload);
+    return { result };
+  }
+
+  @Post('editor-in-chief')
+  @ApiOperation({ summary: 'Chatbot' })
+  @ApiResponse({
+    status: HttpStatus.OK,
+    description: '',
+  })
+  @ApiResponse({
+    status: HttpStatus.BAD_REQUEST,
+    description: 'Invalid input data',
+  })
+  async editor(@Body() payload: WriteDto) {
+    const result = await this.aiService.editor(payload);
     return { result };
   }
 }

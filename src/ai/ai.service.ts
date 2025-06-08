@@ -50,4 +50,45 @@ export class AiService {
       throw new Error('Failed to handle inquiry.');
     }
   }
+
+  async editor(payload: WriteDto): Promise<string> {
+    const model = this.genAI.getGenerativeModel({ model: 'gemini-2.0-flash' });
+
+    const prompt = `
+You are a skilled human editor. Your task is to refine the following story or novel text by completely removing all em dashes. 
+You must rewrite the content so it flows smoothly, sounds natural, and reads authentically—without any indication that it was edited by AI. 
+Maintain the original tone, meaning, and emotional resonance while enhancing readability.
+
+Here is the text:
+${payload.text}
+  `.trim();
+
+    try {
+      const result = await model.generateContent([prompt]);
+      return result.response.text();
+    } catch (error) {
+      console.error('Error editing content:', error);
+      throw new Error('Unable to edit the content.');
+    }
+  }
+
+  async chatbot(payload: WriteDto): Promise<string> {
+    const model = this.genAI.getGenerativeModel({ model: 'gemini-2.0-flash' });
+
+    const prompt = `
+    You are a highly capable and adaptive AI assistant. You can function as a writer, marketer, or software developer (backend, frontend, or mobile). 
+    You provide expert, personalized help based on the user's needs. 
+
+    Here is the user's request:
+    ${payload.text}
+    `.trim();
+
+    try {
+      const result = await model.generateContent([prompt]);
+      return result.response.text();
+    } catch (error) {
+      console.error('Error generating chatbot response:', error);
+      throw new Error('Unable to generate chatbot response.');
+    }
+  }
 }
