@@ -42,7 +42,7 @@ export class AiService {
     const model = this.genAI.getGenerativeModel({ model: 'gemini-2.0-flash' });
     try {
       const result = await model.generateContent([
-        `You are a sharp, professional, and respectful customer service representative. Craft a concise and straightforward reply to the following message. Keep it brief while maintaining clarity and courtesy. Here is the message:\n${payload.text}`,
+        `You are a sharp, professional, and respectful customer service representative. Craft a concise and straightforward reply to the following message. Keep it brief while maintaining clarity and courtesy. Not in an email format, let it be straight foward. Here is the message:\n${payload.text}`,
       ]);
       return result.response.text();
     } catch (error) {
